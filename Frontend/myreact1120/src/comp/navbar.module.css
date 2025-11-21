@@ -1,0 +1,35 @@
+/* navbar.module.css */
+/*
+네비게이션에만 사용하도록 구현했고,
+네비게이션 박스 자체 스타일은 아래와 같음.
+*/
+.navbar {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  /* 링크에 적용할 클래스 */
+  .link {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+  
+  .link:hover {
+    color: orange;
+  }
+  /* 현재 경로와 일치할 때 글자 색 dodgerblue + bold */
+  .active {
+    color: dodgerblue;
+    font-weight: bold;
+  }
+  /*
+  className={({ isActive }) => isActive ? "link active" : "link"}
+   이 방식은 NavLink가 제공하는 공식 방법이다.
+  */
