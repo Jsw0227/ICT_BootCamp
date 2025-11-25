@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="ex2" class="ex1.Ex2_MyProfile">
+<property name="name" value="테스형"/> <!-- setter로 들어오는 개념이라 Ex2_MyProfile 에서 가져온다. -->
+<property name="age" value="20"/>
+<property name="addr" value="인천"/>
+</bean>
+
+</beans>
