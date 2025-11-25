@@ -34,8 +34,11 @@ public class BoardDaoImple implements BoardDaoInter {
 
 	@Override
 	public BoardVO detailBoard(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		// <select id="detail" resultType="vo.BoardVO" parameterMap="int">
+		SqlSession ss = FactoryService.getFactory().openSession();
+		BoardVO vo = ss.selectOne("board.detail", num);
+		ss.close();
+		return vo;
 	}
 
 	@Override
@@ -45,6 +48,24 @@ public class BoardDaoImple implements BoardDaoInter {
 		List<BoardVO> blist = ss.selectList("board.list");
 		ss.close();
 		return blist;
+	}
+
+	@Override
+	public void delBoard(int num) {
+		SqlSession ss = FactoryService.getFactory().openSession();
+		//  <delete id="del" parameterType="int">
+		ss.delete("board.del",num);
+		ss.commit();
+		ss.close();
+	}
+
+	@Override
+	public void upBoard(BoardVO vo) {
+		// <update id="up" parameterType="vo.BoardVO">
+		SqlSession ss = FactoryService.getFactory().openSession();
+		ss.update("board.up", vo);
+		ss.commit();
+		ss.close();
 	}
 
 	

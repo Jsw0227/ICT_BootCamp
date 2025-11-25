@@ -10,7 +10,7 @@
 	<ul>
 		<li><a href="main.ict?cmd=index">index</a></li>
 		<li><a href="main.ict?cmd=hello">hello</a></li>
-		<li><a href="main.ict?cmd=boardForm">BoardFormTest</a></li>
+		<li><a href="main.ict?cmd=boardList">BoardDemo</a></li>
 
 	</ul>
 </body>
