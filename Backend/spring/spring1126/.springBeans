@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/java/ex1/ex1_auto.xml</config>
 		<config>src/main/java/ex1/ex2_auto.xml</config>
+		<config>src/main/java/ex2/ex1_res.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
