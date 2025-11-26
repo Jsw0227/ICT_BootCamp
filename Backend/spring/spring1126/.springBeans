@@ -8,6 +8,7 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/java/ex1/ex1_auto.xml</config>
+		<config>src/main/java/ex1/ex2_auto.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

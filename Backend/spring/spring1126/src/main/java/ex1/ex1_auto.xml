@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<context:annotation-config />
+	<!-- context를 설정 해줘야 autowired를 사용 할 수 있다. -->
 
-	<bean id="msg" class="java.lang.String"  >
-	<constructor-arg value="하이"/>
+	<!-- qualifier : byType일 경우 : 타입이 같은 빈이 여러 개 존재할 경우 수식어로 지정 할 수 있다. 이 경우 
+		byName보다 원 순위를 갖는다. -->
+
+	<bean id="msg1" class="java.lang.String">
+		<qualifier value="ictMsg1" />
+		<constructor-arg value="하이1" />
+	</bean>
+
+	<bean id="msg2" class="java.lang.String">
+		<qualifier value="ictMsg2" />
+		<constructor-arg value="하이2" />
 	</bean>
 
 	<bean id="auto1" class="ex1.Ex1_AutoWired">
-		<property name="msg" ref="msg"/>
+		<!-- <property name="msg" ref="msg"/> -->
 	</bean>
 </beans>
