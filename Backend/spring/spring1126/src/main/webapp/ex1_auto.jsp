@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-${res }
+<h1 style="width: 400px; margin: auto;">Spring으로 부터 받은 결과</h1>
+		${res }
 </body>
 </html>

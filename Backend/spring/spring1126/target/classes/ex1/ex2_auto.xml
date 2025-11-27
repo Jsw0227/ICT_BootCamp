@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-<bean id="res1" class="ex1.Ex2_MyResource">
-<property name="conts" value="안녕하세요 테스형!"/>
-</bean>
-
-<bean id="res2" class="ex1.Ex2_MyResource">
-<property name="conts" value="쉬는시간이에요 테스형!"/>
-</bean>
-
-
-<bean id="ex2_res" class="ex1.Ex2_Resource">
-<property name="res" ref="res1"/>
-</bean>
-
-
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<context:annotation-config/>
+	<bean id="res1" class="ex1.Ex2_MyResource">
+		<qualifier value="q1"/>
+		<property name="conts" value="안녕하세요 테스형!"/>
+	</bean>
+	<bean id="res2" class="ex1.Ex2_MyResource">
+		<qualifier value="q2"/>
+		<property name="conts" value="쉬는시간이에요 테스형!"/>
+	</bean>
+	<bean id="ex2_res" class="ex1.Ex2_Resource">
+<!-- 		<property name="res" ref="res1"/> -->
+	</bean>
 </beans>

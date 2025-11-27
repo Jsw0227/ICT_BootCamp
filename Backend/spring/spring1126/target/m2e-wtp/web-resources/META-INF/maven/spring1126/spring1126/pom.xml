@@ -12,7 +12,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>16</release>
+					<release>11</release>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -34,7 +34,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
 		<dependency>
 			<groupId>aopalliance</groupId>
@@ -42,19 +41,33 @@
 			<version>1.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver pointcut을 
+			적용해서 실제 AOP에서 정규표현식 과 같은 방법을 사용하기 위한 라이브러리 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.9.21</version>
-			<!-- <scope>runtime</scope> -->
+			<!--<scope>runtime</scope> runtime은 실행시에 나오기 때문에 제거 -->
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.4</version>
 		</dependency>
 
-
 	</dependencies>
 </project>
+
+
+
+
+
+
+
+
+
+
+

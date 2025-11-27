@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
-@WebServlet("/Ex2_ResourceServlet")
+
+@WebServlet("/ex2_ResourceServlet")
 public class Ex2_ResourceServlet extends HttpServlet{
 	private ApplicationContext ctx;
 	@Override
@@ -21,8 +22,14 @@ public class Ex2_ResourceServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Ex2_Resource ref = ctx.getBean("ex2_res", Ex2_Resource.class);
 		
-		String msg = ref.getRes().resource();
+		String msg = ref.getRes().resource1();
 		req.setAttribute("res", msg);
 		req.getRequestDispatcher("ex1_auto.jsp").forward(req, resp);
 	}
 }
+
+
+
+
+
+

@@ -4,23 +4,15 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-<!--  
-Resouce는 byname이 더 강하지만
-autowired는 수식어(qualifier)가 강하다.
 
- -->
 	<context:annotation-config/>
 	<bean id="res1" name="resn1" class="ex2.Ex1_MyResource">
-	<qualifier value="q1"/>
-	<property name="conts" value="안녕하세요"/>
+		<qualifier value="q1"/>
+		<property name="conts" value="안녕하세요!"/>
 	</bean>
-	
 	<bean id="res2" name="resn2" class="ex2.Ex1_MyResource">
-	<qualifier value="q2"/>
-	<property name="conts" value="안녕하세요2"/>
+		<qualifier value="q2"/>
+		<property name="conts" value="안녕하세요2!"/>
 	</bean>
-	
-	<bean id="ex1_res" class="ex2.Ex1_Resource">
-	
-	</bean>
+	<bean id="ex1_res" class="ex2.Ex1_Resource"/>
 </beans>
