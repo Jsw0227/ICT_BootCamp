@@ -1,16 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-<div style="width: 200px; margin:auto">
-<h1>${msg}</h1>
-<a href="myProfil">MyProfile</a>
-</div>
-
-</body>
-</html>
+	pageEncoding="EUC-KR"%>
+<%@include file="../header.jsp" %>
+<main class="contanier text-center">
+<h1>환영합니다.</h1>
+<p>main페이지 입니다.</p>
+</main>
+<%@include file="../footer.jsp" %>

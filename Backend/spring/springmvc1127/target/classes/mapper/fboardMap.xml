@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fb">
+<select id="list" resultType="fvo">
+select num,subject,writer,hit,fdate from fborad order by 1 DESC
+</select>
+
+<insert id="add" parameterType="fvo">
+insert into fborad values(fboard_seq.nextval,#{subject},#{content},#{writer},#{reip},0,#{pwd},sysdate)
+</insert>
+
+<update id="hit" parameterType="int">
+update fborad set hit=hit+1 where num=#{num}
+</update>
+
+<select id="detail" parameterType="int" resultType="fvo">
+select num,subject,content,writer,reip,hit,fdate from fborad where num=#{num}
+</select>
+
+
+</mapper>
