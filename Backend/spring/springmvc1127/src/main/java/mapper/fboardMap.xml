@@ -3,21 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fb">
-<select id="list" resultType="fvo">
-select num,subject,writer,hit,fdate from fborad order by 1 DESC
-</select>
+	<select id="list" resultType="fvo">
+		select num,subject,writer,hit,fdate from fboard order by 1 DESC
+	</select>
 
-<insert id="add" parameterType="fvo">
-insert into fborad values(fboard_seq.nextval,#{subject},#{content},#{writer},#{reip},0,#{pwd},sysdate)
-</insert>
+	<insert id="add" parameterType="fvo">
+		insert into fboard
+		values(fboard_seq.nextval,#{subject},#{content},#{writer},#{reip},0,#{pwd},sysdate)
+	</insert>
 
-<update id="hit" parameterType="int">
-update fborad set hit=hit+1 where num=#{num}
-</update>
+	<update id="hit" parameterType="int">
+		update fboard set hit=hit+1 where num=#{num}
+	</update>
 
-<select id="detail" parameterType="int" resultType="fvo">
-select num,subject,content,writer,reip,hit,fdate from fborad where num=#{num}
-</select>
+	<select id="detail" parameterType="int" resultType="fvo">
+		select num,subject,content,writer,reip,hit,fdate from fboard where
+		num=#{num}
+	</select>
+
+	<delete id="delete" parameterType="int">
+		delete from fboard where num=#{num}
+	</delete>
+
+	<update id="update" parameterType="fvo">
+		UPDATE FBOARD SET
+		subject=#{subject}, writer=#{writer}
+		, content=#{content} WHERE num=#{num}
+	</update>
 
 
 </mapper>

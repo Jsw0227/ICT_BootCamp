@@ -3,6 +3,10 @@
 <%@include file="../header.jsp" %>
 <main class="contanier text-center">
 <h1>환영합니다.</h1>
+<%-- 베너 영역 시작 --%>
+
+
+<%-- 베너 영역 끝 --%>
 <p>main페이지 입니다.</p>
 </main>
 <%@include file="../footer.jsp" %>

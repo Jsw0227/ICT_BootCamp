@@ -12,6 +12,10 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 		
 <context:component-scan base-package="kr.co.ictedu.mvc"/>
+<!-- resources mapping -->
+<mvc:annotation-driven/>
+<mvc:resources location="/resources/" mapping="/resources/**"/>
+
 <!-- 1. DataSource : JNDI -->
 <jee:jndi-lookup id = "dataSource" jndi-name="java:comp/env/jdbc/myora"/>
 <!-- 2. Mybatis SqlSessionFactoryBean에서 기존의 config.xml, mapper.xml들도 포함해서 위임받은 설정을 한다 -->
@@ -34,6 +38,6 @@
 <property name="suffix" value=".jsp"/>
 </bean>
 
-
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 </beans>

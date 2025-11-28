@@ -6,7 +6,9 @@
   <configuration>
   <typeAliases>
   	<typeAlias type="kr.co.ictedu.mvc.dto.FBoardDTO" alias="fvo"/>
+  	<typeAlias type="kr.co.ictedu.mvc.dto.UpBoardDTO" alias="upvo"/>
   </typeAliases>
   
+
   </configuration>
   

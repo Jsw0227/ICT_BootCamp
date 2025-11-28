@@ -15,4 +15,8 @@ public interface FBoardDaoInter {
 	
 	//<select id="detail" paramete<select id="detail" parameterType="int" resultType="fvo">rType="int" resultType="fvo">
 	FBoardDTO detailFboard(int num);
+	
+	void deleteFboard(int num);
+	
+	void updateFboard(int num);
 }
