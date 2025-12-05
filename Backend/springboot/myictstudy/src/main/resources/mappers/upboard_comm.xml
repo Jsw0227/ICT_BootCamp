@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--upboard_comm.xml--> 
+<mapper namespace="kr.co.ictedu.myictstudy.dao.UpboardCommDao">
+	<insert id="addComment" parameterType="upbcomm">
+	insert into upboard_comm values(upboard_comm_seq.nextVal,#{ucode},#{uwriter},
+	#{ucontent}, #{reip}, sysdate)
+	</insert>
+	<!-- select * from upboard_comm where ucode=1 order by 1 desc -->
+	<select id="listComment" resultType="upbcomm" parameterType="int">
+	select * from upboard_comm where ucode=#{num} order by 1 desc 
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

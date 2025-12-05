@@ -11,3 +11,7 @@ yarn add --dev @types/react-slick
 
 //react-pageflip
 yarn add react-pageflip
+
+
+//axios : ajax를 사용하기 위한 모듈 2025/12/03일 스프링 부트 수업과 연동하기
+yarn add axios
