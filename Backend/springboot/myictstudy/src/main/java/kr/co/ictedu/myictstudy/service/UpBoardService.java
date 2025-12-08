@@ -13,6 +13,7 @@ import kr.co.ictedu.myictstudy.vo.UpBoardVO;
 public class UpBoardService {
 	@Autowired
 	private UpBoardDao upBoardDao;
+	
 	public void add(UpBoardVO vo) {
 		upBoardDao.add(vo);
 	}
@@ -26,8 +27,8 @@ public class UpBoardService {
 		hit(num);//조회수를 증가 한 후 상세보기를 호출해서 반환 받음 
 		return upBoardDao.detail(num);
 	}
-	public int totalCount() {
-		return upBoardDao.totalCount();
+	public int totalCount(Map<String, String> map) {
+		return upBoardDao.totalCount(map);
 	}
 }
 

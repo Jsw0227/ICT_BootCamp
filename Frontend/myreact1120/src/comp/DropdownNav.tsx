@@ -26,7 +26,7 @@ const DropdownNav: React.FC = () => {
             <NavLink to="/community/uplist" onClick={closeDropdown} className={linkClass}>
                 UpBoard
             </NavLink>
-            <NavLink to="" onClick={closeDropdown} className={linkClass}>
+            <NavLink to="/community/mymemo" onClick={closeDropdown} className={linkClass}>
                 Memo장
             </NavLink>
         </div>)}

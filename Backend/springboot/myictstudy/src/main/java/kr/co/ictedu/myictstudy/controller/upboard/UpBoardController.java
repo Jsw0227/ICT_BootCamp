@@ -32,8 +32,11 @@ public class UpBoardController {
 
 	@Autowired
 	private UpBoardService upBoardService;
+	
 	@Autowired
 	private PageVO pageVO;
+	
+	
 	
 	@Autowired
 	private UpBoardCommService upBoardCommService;
@@ -58,7 +61,7 @@ public class UpBoardController {
 	// http://192.168.0.195/myictstudy/upboard/upboardAdd
 	@PostMapping("/upboardAdd")
 	public ResponseEntity<?> upboardAdd(UpBoardVO vo, HttpServletRequest request) {
-		if (!request.getRemoteAddr().equals("192.168.0.13")) {
+		if (!request.getRemoteAddr().equals("192.168.0.24")) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업로드 금지");
 		}
 		// VO에 클라이언트의 아이피를 저장
@@ -120,9 +123,12 @@ public class UpBoardController {
 		// 현재 페이지값
 		String cPage = paramMap.get("cPage");
 		System.out.println("cPage : " + cPage);
+		System.out.println("searchType : " + paramMap.get("searchType"));
+		System.out.println("searchValue : " + paramMap.get("searchValue"));
 		System.out.println("**************************");
 		// 1.총 게시물 수 => PageVO에 해당 property에 setter호출해서 값을 저장 해둔다.
-		int totalCnt = upBoardService.totalCount();
+		
+		int totalCnt = upBoardService.totalCount(paramMap);
 		pageVO.setTotalRecord(totalCnt);
 		System.out.println("TotalCount:" + pageVO.getTotalRecord());
 		System.out.println("********************************");
@@ -195,7 +201,7 @@ public class UpBoardController {
 		return response;
 	}
 
-	// http://192.168.0.195/myictstudy/upboard/updetail?num=1
+	// http://192.168.0.13/myictstudy/upboard/updetail?num=1
 	@GetMapping("/updetail")
 	public UpBoardVO detail(@RequestParam("num") int num) {
 		return upBoardService.detail(num);

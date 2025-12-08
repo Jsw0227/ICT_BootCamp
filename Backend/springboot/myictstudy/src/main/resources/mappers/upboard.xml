@@ -12,16 +12,53 @@
 <!--	<select id="list" resultType="upvo">-->
 <!--	 	select * from upboard order by 1 desc-->
 <!--	</select>-->
+
+<!-- searchType=1:writer,2:title,3:content
+	 searchValue="검색값"
+-->
 	<select id="list" resultType="upvo" parameterType="map">
 		SELECT num,TITLE,writer,content,hit,reip,bdate,imgn, row_num
 		FROM (
 		SELECT num,TITLE,writer,content,hit,reip,bdate,imgn,
 		ROW_NUMBER() OVER(ORDER BY num desc) AS row_num FROM upboard
+		<if test="searchType != null and searchValue != null">
+	   	<where> <!-- 원래 query에는 where이 들어가야하지만,  <where>을 통해서 만약 키 값이 있으면 자동적으로 where 을 추가하게끔 해준다. -->
+	   	<choose>
+	   	<when test="searchType == 1">
+	   		writer like '%' || #{searchValue} || '%'
+	   	</when>
+	   	<when test="searchType == 2">
+	   	title like '%' || #{searchValue} || '%'
+	   	</when>
+	   	<when test="searchType == 3">
+	   	content like '%' || #{searchValue} || '%'
+	   	</when>
+	   	</choose>
+	   	</where>
+	   </if>
+		
+		
 		) numbered_rows WHERE row_num BETWEEN #{begin} AND #{end}
-	
+	   
 	</select>
-	<select id="totalCount" resultType="int">
+	<select id="totalCount" resultType="int" parameterType="map">
 			select count(*) cnt from upboard
+			<if test="searchType != null and searchValue != null">
+	   	<where>
+	   	<choose>
+	   	<when test="searchType == 1">
+	   		writer like '%' || #{searchValue} || '%'
+	   	</when>
+	   	<when test="searchType == 2">
+	   	title like '%' || #{searchValue} || '%'
+	   	</when>
+	   	<when test="searchType == 3">
+	   	content like '%' || #{searchValue} || '%'
+	   	</when>
+	   	</choose>
+	   	</where>
+	   </if>
+			
 	</select>
  	<update id="hit" parameterType="int">
  		update upboard set hit=hit+1 where num=#{num}

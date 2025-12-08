@@ -1,12 +1,14 @@
 package kr.co.ictedu.myictstudy.service;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.co.ictedu.myictstudy.dao.MemoDao;
 import kr.co.ictedu.myictstudy.vo.MemoVO;
 //Model[@RestController,@Controler] = Service = Dao[I][@Mapper]
 @Service
-public class MemoService {
+public class MemoService{
 	@Autowired
 	private MemoDao memoDao;
 	//Controller에서 입력받은 값을 VO로 받아서
@@ -16,14 +18,18 @@ public class MemoService {
 		//ss.insert("ns.id",value);
 		memoDao.add(vo);
 	}
-	public  List<MemoVO> list(){
-		return memoDao.list();
+	public  List<MemoVO> list(Map<String, String> map){
+		return memoDao.list(map);
 	}
 	public  MemoVO detail(int num) {
 		return memoDao.detail(num);
 	}
 	public  void del(int num) {
 		memoDao.del(num);
+	}
+	
+	public int totalCount() {
+		return memoDao.totalCount();
 	}
 }
 

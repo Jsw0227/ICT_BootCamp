@@ -16,7 +16,7 @@ public interface UpBoardDao {
 	void hit(int num);
 	UpBoardVO detail(int num);
 	void delete(int num);
-	int totalCount();
+	int totalCount(Map<String, String> map);
 }
 
 

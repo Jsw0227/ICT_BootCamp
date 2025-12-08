@@ -9,8 +9,8 @@
 	  insert into memo values(memo_seq.nextVal,#{writer},#{conts},#{mreip},sysdate)
 	</insert>
 	<!-- select * from memo order by 1 desc  -->
-	<select id="list" resultType="memovo">
-	select * from memo order by 1 desc
+	<select id="list" resultType="memovo" parameterType="map">
+	select * from (select num, writer,conts,mreip,mdate,ROW_Number() over(order by num desc) as row_num from memo) numbered_rows where row_num between #{begin} and #{end}
 	</select>
 	<!-- select * from memo where num=2 -->
 	<select id="detail" resultType="memovo" parameterType="int">
@@ -20,6 +20,9 @@
 	<delete id="del" parameterType="int">
 	    delete from memo where num=#{num}
 	</delete>
+	<select id="totalCount" resultType="int">
+		select count(*) cnt from upboard
+	</select>
 </mapper> 
 
 

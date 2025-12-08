@@ -14,6 +14,8 @@ import Login from '../conts/Login'
 import Signups from '../conts/member/Signups'
 import UpboardList from '../conts/upboard/UpboardList'
 import UpboardForm from '../conts/upboard/UpboardForm'
+import UpboardDetail from '../conts/upboard/UpboardDetail'
+import MemoList from '../conts/community/MemoList'
 
 const AppRoutes: React.FC = () => {
     const routeList = [
@@ -28,6 +30,8 @@ const AppRoutes: React.FC = () => {
         { path: '/community', element: <Community /> },
         { path: '/community/uplist', element:<UpboardList/>},//upboard
         { path: '/community/upform', element:<UpboardForm/>},///community/upform
+        { path: '/community/updetail/:num', element:<UpboardDetail/>},
+        { path: '/community/mymemo', element: <MemoList /> },
         { path: '/diary', element: <Diary /> },
         { path: '/login', element: <Login /> },
         { path: '/signup', element: <Signups /> },
