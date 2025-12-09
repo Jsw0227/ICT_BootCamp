@@ -17,6 +17,49 @@
 		</foreach>
 	</insert>
 	
+	<select id="list" resultType="map" parameterType="map">
+        SELECT g.NUM, g.TITLE, g.WRITER, TO_CHAR(g.contents) as contents, g.HIT, g.REIP,g.GDATE, g.ROW_NUM, gc.GALLERYID, gc.IMAGENAME FROM
+        (SELECT num, title, writer, contents, hit, reip, gdate,
+        ROW_NUMBER() OVER(ORDER BY num desc) row_num FROM GALLERY
+        <if test="searchType != null and searchValue != null">
+            <where>
+                <choose>
+                    <when test="searchType == 1">
+                        writer LIKE '%'||#{searchValue}||'%'
+                    </when>
+                    <when test="searchType == 2">
+                        title LIKE '%'||#{searchValue}||'%'
+                    </when>
+                    <when test="searchType == 3">
+                        CONTENTS LIKE '%'||#{searchValue}||'%'
+                    </when>
+                </choose>
+            </where>
+        </if>
+        ) g,
+        (SELECT GALLERYID, IMAGENAME FROM (SELECT GALLERYID, IMAGENAME,
+        ROW_NUMBER() OVER(PARTITION BY galleryid ORDER BY imagename desc) RN FROM GALLERYIMAGES)
+        WHERE RN=1) gc WHERE g.num=gc.galleryid AND row_num BETWEEN #{begin} AND #{end} ORDER BY num DESC
+    </select>
+    
+    <select id="totalCount" resultType="int" parameterType="map">
+    select count(*) cnt from gallery
+    <if test="searchType != null and searchValue != null">
+            <where>
+                <choose>
+                    <when test="searchType == 1">
+                        writer LIKE '%'||#{searchValue}||'%'
+                    </when>
+                    <when test="searchType == 2">
+                        title LIKE '%'||#{searchValue}||'%'
+                    </when>
+                    <when test="searchType == 3">
+                        CONTENTS LIKE '%'||#{searchValue}||'%'
+                    </when>
+                </choose>
+            </where>
+        </if>
+    </select>
 </mapper> 
 
 

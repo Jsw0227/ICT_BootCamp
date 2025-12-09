@@ -1,64 +1,136 @@
 import React, { useState } from 'react'
 import styles from './gallery.module.css';
+import { useNavigate } from 'react-router-dom';
+import { resolve } from 'path';
+
+//미리보기, 폼 전송을 위한 인터페이스
+interface FormData {
+    num: number;
+    title: string;
+    writer: string;
+    contents: string;
+    reip?: string;
+    hit?: number;
+    gdate?: string;
+    //https://developer.mozilla.org/ko/docs/Web/API/File
+    //File Interface는 javascript에서 파일을 접근할 수 있는 자바스크립트 객체이다.
+    // images: File | null; 
+    images: File[];
+}
+
+
+
+
+
 const GalleryForm: React.FC = () => {
-    const [form, setForm] = useState({
-        id: 0,
+    // jsObject 형 State를 선언, 초기화 
+    const [formData, setFormData] = useState<FormData>({
+        num: 0,
         title: '',
-        image: '',
-    })
-    const [title, setTitle] = useState('');
-    const [image, setImage] = useState('');
-    const [nextId, setNextId] = useState(1);
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    // 유효성을 체크하는 함수 정의
-    const validate = () => {
-        const newErrors: { [key: string]: string } = {};
-        if (!title) newErrors.title = 'title을 입력하세요';
-        if (!image) newErrors.image = 'img url을 입력하세요';
-        return newErrors;
-    }
-    const gallerySubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const myErrors = validate();
-        setNextId(nextId+1);
-        
-        if (Object.keys(myErrors).length > 0) {
-            console.log(`Object.keys(myErrors) => ${Object.keys(myErrors)}`);
-            setErrors(myErrors);
-            return; 
-        }else{
-           setErrors({image:''})
+        writer: '',
+        contents: '',
+        images: [] //여러개의 이미지 파일 [data:img/pngAS,data:img/pngAS]
+    });
+    // 미리보기를 구현할때 사용하는 상태관리 (넘어오는 파일의 이름이 한개가 아니기 때문에 배열로 처리리)
+    const [preview, setPreview] = useState<string[]>([]);
+    // navigate
+    const naviate = useNavigate();
+    const galleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, files } = e.target;
+        console.log(`AllNames : ${name} : ${value}`)
+
+        if (name === 'image' && files) {
+            console.log(`ImageName : ${name} : ${value} | ${files[0]} , ${files[1]}}`)
+
+            const fileArray = Array.from(files)
+
+            const filesPreviews = fileArray.map(file => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+
+
+
+                return new Promise<string>((resolve) => {
+                    reader.onload = () => {
+                        resolve(reader.result as string)
+                    }
+                });
+
+            })
+
+            Promise.all(filesPreviews).then(pUrls => {
+                setPreview(pUrls);
+            })
+            setFormData({ ...formData, images: fileArray })
+        } else {
+            setFormData({ ...formData, [name]: value })
         }
-        const gObj = { id: nextId, title, image };
-        setForm(gObj);
-         setNextId(nextId + 1);
-        // 서버로 전송 
-            console.log('데이터 전송:', gObj);
-        alert(`서버로 데이터 전송 : ${gObj.title} / ${gObj.image}`);
-        
+
+
+
+    }
+
+    const gallerySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        alert('이미지가 등록되었습니다!');
+        const myFormdata = new FormData();
+        myFormdata.append('writer',formData.writer);
+        myFormdata.append('title',formData.title);
+        myFormdata.append('contents',formData.contents);
+        formData.images.forEach((file,index) => {
+            myFormdata.append('images',file)
+        });
+        try {
+            console.log(`FormData => ${myFormdata}`);
+            const response = await fetch(`http://192.168.0.24/myictstudy/gallery/add`,{method:'POST', body:myFormdata})
+            naviate('/gallery');
+        } catch (error) {
+            console.log('전송 오류 :', error)
+        }
     }
     return (
-             <div className={styles.container}>
+        <div className={styles.container}>
             <h2 className={styles.title}>이미지 등록</h2>
             <form className={styles.form} onSubmit={gallerySubmit}>
                 <input
-                    className={styles.input}
+                    className={styles.input} name='title'
                     type="text"
                     placeholder="제목 입력"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                />
-                {errors.title && <p className={styles.error}>{errors.title}</p>}
 
+                    onChange={galleryChange}
+                />
+                <input type='text' id='contents' name='contents' onChange={galleryChange}
+                    className="form-control"
+                    placeholder="내용"
+                />
+                <input type='text' id='writer' name='writer'
+                    onChange={galleryChange} className="form-control"
+                    placeholder="작성자"
+                />
                 <input
                     className={styles.input}
-                    type="text"
+                    type="file" name='image' multiple
                     placeholder="이미지 URL 입력"
-                    value={image}
-                    onChange={e => setImage(e.target.value)}
-                />
-                {errors.image && <p className={styles.error}>{errors.image}</p>}
 
+                    onChange={galleryChange}
+                />
+                {/* 이미지 미리보기 */}
+                {
+                    preview.length > 0 && (
+                        <div className="mb-3">
+                            {
+                                preview.map((p, index) => (
+                                    <p key={index}>
+                                        <img src={p} alt='' className='img-thumbnail'
+                                            style={{ marginRight: '10px', marginBottom: '10px', width: '150px', height: '150px' }}
+                                        />
+                                        <span>{p}</span>
+                                    </p>
+                                ))
+                            }
+                        </div>
+                    )
+                }
                 <button type="submit" className={styles.button}>등록</button>
             </form>
         </div>
