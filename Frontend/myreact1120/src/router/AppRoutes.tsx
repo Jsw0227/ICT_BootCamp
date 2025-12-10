@@ -25,7 +25,7 @@ const AppRoutes: React.FC = () => {
         { path: '/board/:id', element: <BoardDetail /> },  // 게시판 상세페이지 
         { path: '/gallery', element: <Gallery /> },
         { path: '/gallery/write', element: <GalleryForm /> },
-        { path: '/gallery/:id', element: <GalleryDetail /> },
+        { path: '/gallery/gdetail/:num', element: <GalleryDetail /> },
         { path: '/chart', element: <Chart /> },
         { path: '/community', element: <Community /> },
         { path: '/community/uplist', element:<UpboardList/>},//upboard

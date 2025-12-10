@@ -5,7 +5,8 @@
 <!--여기서 namespace는 @Mapper를 지정한 Interface인 즉 패키지포함해서 MemoDao를 작성해야 함--> 
 <mapper namespace="kr.co.ictedu.myictstudy.dao.GalleryDao">
 	<insert id="add" parameterType="gvo">
-	INSERT INTO GALLERY (num,title,contents,writer,reip,hit,gdate) VALUES (gallery_seq.NEXTVAL, #{title},#{contents}, #{writer}, #{reip}, 0, sysdate)
+	INSERT INTO GALLERY (num,title,contents,writer,reip,hit,gdate) 
+	VALUES (gallery_seq.NEXTVAL, #{title},#{contents}, #{writer}, #{reip}, 0, sysdate)
 	</insert>
 	
 	<insert id="addImg" parameterType="java.util.List">

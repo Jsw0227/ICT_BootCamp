@@ -139,6 +139,6 @@ public class GalleryController {
 	public Map<String, Object> detail(@RequestParam("num") int num){
 		return galleryservice.detail(num);
 	}
-	
+		
 	
 }
