@@ -20,6 +20,7 @@ public class MailCertificationController {
 	private EmailSenderService emailSenderService;
 	@Autowired
 	private CertificationNumberRedisDao certificationNumberRedisDao;
+	
 	@PostMapping("/emailCheck")
 	public int sendEmail(@RequestBody EmailCheckVO email) {
 		System.out.println("요청 처리됨" + email.getEmail());
