@@ -29,7 +29,7 @@ const Signups: React.FC = () => {
   const[idMessage,setIdMessage]=useState('');
   const[isEmailVerified,setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
-  const urls = "http://192.168.0.24/myictstudy";
+  const urls = "http://192.168.0.14/myictstudy";
   const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
     const {name,value} = e.target;
     setForm({...form,[name]:value});
@@ -56,14 +56,12 @@ const Signups: React.FC = () => {
       alert('이메일 인증을 먼저 완료 해주세요.')
       return ;
     }
-
     try {
       const formData = new FormData;
       formData.append('userid',form.userid);
       formData.append('password',form.password);
       formData.append('name',form.name);
       formData.append('email',form.email);
-      
       await axios.post(`${urls}/member/signup`,formData);
       alert('회원가입 완료');
       navigate('/')
