@@ -9,8 +9,9 @@ import kr.co.ictedu.myictstudy.vo.MemberVO;
 public interface MemberDao {
 	void insertMember(MemberVO vo);
 	//select count(*) from member where email = #{email}
-	int countByEmail(String email);
 	
+	int countByEmail(String email);
 	@Select("SELECT COUNT(*) cnt FROM member WHERE userid = #{id}")
-	int checkID(String id);
+	
+	int checkId(String id);
 }

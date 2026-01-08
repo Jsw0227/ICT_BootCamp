@@ -20,16 +20,22 @@ import kr.co.ictedu.myictstudy.vo.MemberVO;
 public class LoginController {
 	@Autowired
 	private LoginService loginService;
-	
+	//{"userid":"xman","password":"11"}
 	@PostMapping("/dologin")
-	public String doLogin(HttpSession session, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent, @RequestBody MemberVO vo) {
+	public String doLogin(HttpSession session, HttpServletRequest request,
+			@RequestHeader("User-Agent") String userAgent, 
+			@RequestBody MemberVO vo) {
 		Map<String, Object> result = loginService.loginCheck(vo);
-		System.out.println("result :" + result);
-		if(result!=null && result.get("CNT") != null) {
-			int cnt = ((Number)result.get("CNT")).intValue();
-			if(cnt==1) {
-				System.out.println("세션 처리 완료");
+		System.out.println("result" + result);
+		if (result != null && result.get("CNT") != null) {
+			// COUNT(*)는 Oracle에서 BigDecimal로 반환되기 때문에
+			//Map.get()의 결과는 Object니까 바로 (int) 캐스팅하면 ClassCastException 발생
+			int cnt = ((Number) result.get("CNT")).intValue();
+			if (cnt == 1) {
+				System.out.println("세션 처리 완료!");
 				vo.setName(result.get("NAME").toString());
+				// 로그인 처리를 완료하기 위해서 세션Scope에 키와 값으로 저장
+				// vo에는 name,
 				session.setAttribute("loginMember", vo);
 				return "success";
 			}
@@ -38,18 +44,26 @@ public class LoginController {
 	}
 	
 	@GetMapping("/dologout")
-	public String doLogout(HttpSession session, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
-		System.out.println("로그아웃 처리 완료");
+	public String doLogout(HttpSession session, HttpServletRequest request,
+			@RequestHeader("User-Agent") String userAgent) {
+		System.out.println("로그아웃 처리 완료!");
 		session.invalidate();
 		return "logout";
 	}
-	
 	@GetMapping("/session")
 	public MemberVO session(HttpSession session) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
-		if(loginMember != null) {
+		// 로그인의 상태를 확인 할때 setPassword는 json으로 노출 안되게 null
+		if (loginMember != null) { 
+			System.out.println(loginMember.getUserid());
 			loginMember.setPassword(null);
 		}
-		return loginMember;
+		
+		return loginMember; // name, userid 
 	}
+
 }
+
+
+
+

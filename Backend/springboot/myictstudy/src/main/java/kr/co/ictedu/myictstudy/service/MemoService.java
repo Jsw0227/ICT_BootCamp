@@ -8,7 +8,7 @@ import kr.co.ictedu.myictstudy.dao.MemoDao;
 import kr.co.ictedu.myictstudy.vo.MemoVO;
 //Model[@RestController,@Controler] = Service = Dao[I][@Mapper]
 @Service
-public class MemoService{
+public class MemoService {
 	@Autowired
 	private MemoDao memoDao;
 	//Controller에서 입력받은 값을 VO로 받아서
@@ -18,7 +18,7 @@ public class MemoService{
 		//ss.insert("ns.id",value);
 		memoDao.add(vo);
 	}
-	public  List<MemoVO> list(Map<String, String> map){
+	public List<MemoVO> list(Map<String, String> map){
 		return memoDao.list(map);
 	}
 	public  MemoVO detail(int num) {
@@ -27,7 +27,6 @@ public class MemoService{
 	public  void del(int num) {
 		memoDao.del(num);
 	}
-	
 	public int totalCount() {
 		return memoDao.totalCount();
 	}

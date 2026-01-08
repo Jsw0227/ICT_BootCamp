@@ -18,5 +18,6 @@ public interface MemoDao {
 
 	void del(int num);
 
+	// 추가하기 - 전체 데이터 값
 	int totalCount();
 }

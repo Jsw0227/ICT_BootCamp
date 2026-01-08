@@ -1,3 +1,4 @@
+//UpboardForm.tsx
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styles from './upboard.module.css';
@@ -93,7 +94,7 @@ const myFormSubmit = async (e: React.FormEvent) => {
             //무조건 post방식이다. *****
             //axios.post(url,data,[{header}])
             //postman에서 테스트한 주소를 복사해서 붙여 넣기 <---
-            const url = 'http://192.168.0.24/myictstudy/upboard/upboardAdd';
+            const url = 'http://192.168.0.195/myictstudy/upboard/upboardAdd';
             await axios.post(url, data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
@@ -107,7 +108,7 @@ const myFormSubmit = async (e: React.FormEvent) => {
            Writer =>${formData.writer}`);
     }
 }
-  return (
+return (
     <div className={styles.container}>
         <h2 className={styles.title}>이미지 등록 예제</h2>
         <form onSubmit={myFormSubmit} className={styles.form}>

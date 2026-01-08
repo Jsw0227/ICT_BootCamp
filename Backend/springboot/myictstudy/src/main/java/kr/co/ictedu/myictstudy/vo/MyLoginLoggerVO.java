@@ -10,8 +10,16 @@ import lombok.Setter;
 @Alias("lvo")
 public class MyLoginLoggerVO {
 	private int num;
-	private String idn;
-	private String reip,uagent;
-	private String sstime,eetime;
-	private String status;
+	private String idn;//접속자 아이디
+	private String reip,uagent; // 아이피, 에이전트
+	private String sstime, eetime; // 로그인/로그아웃 시간
+	private String status; // 상태값 
 }
+
+
+
+
+
+
+
+

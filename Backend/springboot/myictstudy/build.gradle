@@ -30,8 +30,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
 	// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
 	implementation 'commons-fileupload:commons-fileupload:1.5'
-	
-	// Add 2025-06-02 ------------------------------------
+	// Add 2025-12-10 ------------------------------------
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
@@ -41,7 +40,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	//AOP Aspect
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	
 	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
@@ -60,3 +58,5 @@ tasks.named('test') {
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
+
+

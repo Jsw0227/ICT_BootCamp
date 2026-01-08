@@ -13,14 +13,13 @@ import kr.co.ictedu.myictstudy.vo.EmailCheckVO;
 import kr.co.ictedu.myictstudy.vo.EmailCountCheckVO;
 
 @RestController
-@RequestMapping("/api/auth") 
-//서티피케이션 넘버 레디스 다오
+@RequestMapping("/api/auth")
 public class MailCertificationController {
 	@Autowired
 	private EmailSenderService emailSenderService;
+	
 	@Autowired
 	private CertificationNumberRedisDao certificationNumberRedisDao;
-	
 	@PostMapping("/emailCheck")
 	public int sendEmail(@RequestBody EmailCheckVO email) {
 		System.out.println("요청 처리됨" + email.getEmail());
@@ -28,6 +27,7 @@ public class MailCertificationController {
 		if (checkEmail == 0) {
 			// 중복된 이메일이 없을 때 메일을 전송한다.
 			emailSenderService.sendEmail(email.getEmail());
+			System.out.println("인증코드 : "+email.getCode() );
 			return 0;
 		} else {
 			return 1;
@@ -49,6 +49,4 @@ public class MailCertificationController {
 	        return ResponseEntity.ok(new EmailCountCheckVO(false, "wrong"));
 	    }
 	}
-	
-	
 }

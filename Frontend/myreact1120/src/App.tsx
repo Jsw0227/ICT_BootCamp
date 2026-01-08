@@ -1,32 +1,91 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Layout from './comp/Layout';
-import AppRoutes from './router/AppRoutes';
-import { useState } from 'react';
-// import { LoginProvider } from './basic3/LoginContext';
-// import LoginTest from './basic4_login/LoginTest';
-// import { LoginProvider } from './basic4_login/LoginContext';
-import { AuthProvider } from './comp/AuthProvider';
-// import Parent from './basic3/Parent';
-// import Parent from './basic2/Parent';
+import Home from './conts/Home';
+import Signups from './conts/member/Signups';
+import Login from './conts/Login';
+import BoardList from './conts/board/BoardList';
 
+import Chart from './conts/Chart';
+import Diary from './conts/Diary';
+import Community from './conts/Community';
+import FilterTest from './FilterTest';
+import BoardDetail from './conts/board/BoardDetail';
+import BoardForm from './conts/board/BoardForm';
+import Gallery from './conts/gallery/Gallery';
+import GalleryDetail from './conts/gallery/GalleryDetail';
+import GalleryForm from './conts/gallery/GalleryForm';
+import AppRoutes from './router/AppRoutes';
+import Ex1_LocalStorage from './ex1_storage/Ex1_LocalStorage';
+import Ex2_LocalStorage from './ex1_storage/Ex2_LocalStorage';
+import Ex1_UseCallback from './basic/Ex1_UseCallback';
+import Ex2_PersonUseCallBack from './basic/Ex2_PersonUseCallBack';
+import Ex3_UseRef from './basic/Ex3_UseRef';
+import { AuthProvider } from './comp/AuthProvider';
+// import { LoginProvider } from './basic4_login/LoginContext';
+// import LoginTest from './basic4_login/LoginTest';
+// import Parent from './basic2/Parent';
+// import { LoginProvider } from './basic3/LoginContext';
+// import Parent from './basic3/Parent';
 function App() {
-  // 1.property 실습
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const toggleLogin = () => setIsLoggedIn(prev => !prev);
+
+ 
 
 
   return (
-    // <AuthProvider>
-    //   <div style={{ border: '1px solid red', padding: 10 }}>
-    //   </div>
-    // </AuthProvider>
+// <LoginProvider>
+//    <div style={{ border: '1px solid red', padding: 10 }}>
+//       <h1>최상위(App)</h1>
+//       <Parent/>
+//     </div>
+// </LoginProvider> 
+//<LoginProvider>
+//   <div style={{ border: '1px solid red', padding: 10 }}>
+//   <LoginTest/>
+//   </div>
+// </LoginProvider> 
+  //  <div style={{ border: '1px solid red', padding: 10 }}>
+  //     <h1>최상위(App)</h1>
+  //     <Parent isLoggedIn={isLoggedIn} toggleLogin={toggleLogin} />
+  //  </div>
+
+    // <div>
+    //   <FilterTest/>
+    // </div>
+    // <Router>
+    //   <Layout>
+    //     <Routes>
+    //       <Route path='/' element={<Home />} />
+    //       <Route path='/board' element={<BoardList />} />
+    //        {/* http://localhost:3000/board/1 , 2 모두가 :id로 들어감 */}
+    //       <Route path='/board/:id' element={<BoardDetail/>} />
+    //       <Route path='/board/write' element={<BoardForm/>}/>
+    //       <Route path='/gallery' element={<Gallery />} />
+    //       <Route path='/gallery/:id' element={<GalleryDetail />} />
+    //       <Route path='/gallery/write' element={<GalleryForm />} />
+    //       <Route path="/signup" element={<Signups />} />
+    //       <Route path="/chart" element={<Chart />} />
+    //       <Route path="/diary" element={<Diary />} />
+    //       <Route path="/login" element={<Login />} />
+    //       <Route path='/community' element={<Community/>}/>
+    //     </Routes>
+    //   </Layout>
+    // </Router>
     <AuthProvider>
       <Router>
         <Layout>
-          <AppRoutes />
+          <AppRoutes/>
         </Layout>
       </Router>
     </AuthProvider>
+    // <>
+    // <Ex1_LocalStorage/>
+    // <Ex2_LocalStorage/>
+    // </>
+    // <Ex1_UseCallback/>
+    // <Ex2_PersonUseCallBack/>
+    // <Ex3_UseRef/>
+  
   );
 }
 export default App;

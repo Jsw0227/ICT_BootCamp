@@ -32,11 +32,8 @@ public class UpBoardController {
 
 	@Autowired
 	private UpBoardService upBoardService;
-	
 	@Autowired
 	private PageVO pageVO;
-	
-	
 	
 	@Autowired
 	private UpBoardCommService upBoardCommService;
@@ -61,7 +58,7 @@ public class UpBoardController {
 	// http://192.168.0.195/myictstudy/upboard/upboardAdd
 	@PostMapping("/upboardAdd")
 	public ResponseEntity<?> upboardAdd(UpBoardVO vo, HttpServletRequest request) {
-		if (!request.getRemoteAddr().equals("192.168.0.24")) {
+		if (!request.getRemoteAddr().equals("192.168.0.195")) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업로드 금지");
 		}
 		// VO에 클라이언트의 아이피를 저장
@@ -116,6 +113,7 @@ public class UpBoardController {
 	// http://192.168.0.195/myictstudy/upboard/upList?cPage=1
 	// List<UpBoardVO> 를 사용하지 않고 Map<String, Object> 사용하는 이유
 	// 데이터 뿐만이 아니라 페이지 처리를 위한 부가 정보도 함께 보낼때 편해서 사용
+	//http://192.168.0.195/myictstudy/upboard/upList?cPage=1&searchType=3&searchValue=목요
 	@RequestMapping("/upList")
 	public Map<String, Object> upBoardList(@RequestParam Map<String, String> paramMap, HttpServletRequest request) {
 		System.out.println("Method =>" + request.getMethod());
@@ -123,11 +121,10 @@ public class UpBoardController {
 		// 현재 페이지값
 		String cPage = paramMap.get("cPage");
 		System.out.println("cPage : " + cPage);
-		System.out.println("searchType : " + paramMap.get("searchType"));
-		System.out.println("searchValue : " + paramMap.get("searchValue"));
+		System.out.println("searchType:" + paramMap.get("searchType"));
+		System.out.println("searchValue:" + paramMap.get("searchValue"));
 		System.out.println("**************************");
 		// 1.총 게시물 수 => PageVO에 해당 property에 setter호출해서 값을 저장 해둔다.
-		
 		int totalCnt = upBoardService.totalCount(paramMap);
 		pageVO.setTotalRecord(totalCnt);
 		System.out.println("TotalCount:" + pageVO.getTotalRecord());
@@ -183,7 +180,8 @@ public class UpBoardController {
 	 	System.out.println("List Size =>"+list.size());
 	 	//-------------------------------------------------------
 	 	// 7. 페이지 블록을 구현 
-	 	int startPage = (int)((pageVO.getNowPage() - 1) / pageVO.getPagePerBlock()) * pageVO.getPagePerBlock() + 1;
+	 	int startPage = (int)((pageVO.getNowPage() - 1) / pageVO.getPagePerBlock()) 
+	 			* pageVO.getPagePerBlock() + 1;
 	 	int endPage = startPage + pageVO.getPagePerBlock() - 1;
 	 	//블록 초기화 전체 페이지값보다 크다면 전체 페이지값을 마지막 블록페이지 값으로 저장 
 	 	if(endPage > pageVO.getTotalPage()) {
@@ -201,7 +199,7 @@ public class UpBoardController {
 		return response;
 	}
 
-	// http://192.168.0.13/myictstudy/upboard/updetail?num=1
+	// http://192.168.0.195/myictstudy/upboard/updetail?num=1
 	@GetMapping("/updetail")
 	public UpBoardVO detail(@RequestParam("num") int num) {
 		return upBoardService.detail(num);
@@ -223,7 +221,14 @@ public class UpBoardController {
 //		
 //		return __________________
 //	}	
-	
+	//http://192.168.0.195/myictstudy/upboard/upcommAdd
+//    {
+//        
+//        "ucode": 66, ->최신 업리스트의 글의 번호로 지정하기 
+//        "uwriter": "테스형",
+//        "ucontent": "오늘은 월요일 이에요",
+//        "reip": "192.168.0.11"
+//    }
 	@PostMapping("/upcommAdd")
 	public ResponseEntity<?> upBoardComm(@RequestBody UpBoardCommVO vo){
 		System.out.println("vo:"+vo.getUcode());
@@ -233,6 +238,7 @@ public class UpBoardController {
 		upBoardCommService.addComment(vo);
 		return ResponseEntity.ok().body(1);
 	}
+	//http://192.168.0.195/myictstudy/upboard/upcommList -> param으로 num값 66
 	@GetMapping("/upcommList")
 	public List<UpBoardCommVO> listBoardComm(@RequestParam("num") int num){
 		return upBoardCommService.listComment(num);

@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailCountCheckVO {
-	private boolean success;
-	private String reason;
+    private boolean success;
+    // "ok", "wrong", "exceeded"
+    private String reason; 
 }

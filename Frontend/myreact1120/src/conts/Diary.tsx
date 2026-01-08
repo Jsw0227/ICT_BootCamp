@@ -16,24 +16,34 @@ interface MyBookProps {
 }
 const myData = [
     {
-        image: "images/bg1.png",
-        text: "오늘은 강가를 걸었다. 물소리가 너무 좋았다.\n 정말 재미 있었다.아! 행복하다."
+        image: "images/yujimin01.png",
+        movieimg: "images/yujimin01.png",
+        text: "오늘은 강가를 걸었다. 물소리가 너무 좋았다.\n 정말 재미 있었다.아! 행복하다.",
+        title: "영화1"
     },
     {
-        image: "images/bg2.png",
-        text: "밤에 거리를 걸어 보았다. 하루가 정말 보람되었다."
+        image: "images/yujimin02.png",
+        movieimg: "images/yujimin02.png",
+        text: "밤에 거리를 걸어 보았다. 하루가 정말 보람되었다.",
+        title: "영화2"
     },
     {
         image: "images/bg3.png",
-        text: "도서관에서 책을 읽었다. 마음이 차분해졌다."
+        movieimg: "images/yujimin03.png",
+        text: "도서관에서 책을 읽었다. 마음이 차분해졌다.",
+        title: "영화3"
     },
     {
         image: "images/bg4.png",
-        text: "오늘은 비가 내렸다. 그래도 복습은 열심히 했다."
+        movieimg: "images/yujimin03.jpg",
+        text: "오늘은 비가 내렸다. 그래도 복습은 열심히 했다.",
+        title: "영화4"
     },
     {
         image: "images/bg5.png",
-        text: "오늘은 비가 내렸다. 내일도 복습은 열심히 하겠다."
+        movieimg: "images/yujimin05.png",
+        text: "오늘은 비가 내렸다. 내일도 복습은 열심히 하겠다.",
+        title: "영화5"
     }
 ]
 
@@ -78,19 +88,26 @@ const Diary: React.FC = () => {
                             </div>,
 
                             //텍스트 페이지
-                            <div key={`txt-${idx}`} style={{
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                padding: '20px',
-                                fontSize: '18px',
+                            <div key={`txt-${idx}`} 
+                            style={{ width: '100%', height: '100%', backgroundColor: '#fff', display: 'flex', flexDirection: 'column', padding: '20px', boxSizing: 'border-box', }}> 
+                     
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}> 
+                     
+                                <img src={entry.movieimg} alt="movie" style={{ width: '120px', height: '160px', objectFit: 'cover', borderRadius: '8px', marginRight: '10px', marginTop:'20px', marginLeft:'20px' }} /> 
+           
+                                <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold', textAlign: 'left' }}> {entry.title} </h3> 
+                            </div> 
+                                <div 
+                                    style={{
+                                        backgroundColor: '#f2f2f2',  
+                                        borderRadius: '10px',        
+                                        padding: '15px',             
+                                        marginTop: '10px',  marginLeft:'5px', marginRight:'5px' ,    
+                                        boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+                                    }} >
+                                <p style={{ whiteSpace: 'pre-line', fontSize: '16px', lineHeight: '1.5', textAlign: 'left', margin: 0 }}> {entry.text} </p> 
 
-                            }}>
-                                <p style={{ margin: 0 }}>{entry.text}</p>
+                                </div>
                             </div>
 
                         ]))()

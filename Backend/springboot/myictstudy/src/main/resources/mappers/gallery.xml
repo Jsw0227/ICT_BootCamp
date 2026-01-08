@@ -2,65 +2,83 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--여기서 namespace는 @Mapper를 지정한 Interface인 즉 패키지포함해서 MemoDao를 작성해야 함--> 
+<!--
+	gallery.xml
+	여기서 namespace는 @Mapper를 지정한 Interface인 즉 패키지포함해서 MemoDao를 작성해야 함--> 
 <mapper namespace="kr.co.ictedu.myictstudy.dao.GalleryDao">
-	<insert id="add" parameterType="gvo">
-	INSERT INTO GALLERY (num,title,contents,writer,reip,hit,gdate) 
-	VALUES (gallery_seq.NEXTVAL, #{title},#{contents}, #{writer}, #{reip}, 0, sysdate)
-	</insert>
-	
-	<insert id="addImg" parameterType="java.util.List">
-		<selectKey keyProperty="id" resultType="int" order="BEFORE">
-			select gallery_seq.currVal from dual
-		</selectKey>
-		<foreach collection="list" item="image" separator=" " open="insert all" close="select * from dual">
-			INTO GALLERYIMAGES (galleryid,imagename) VALUES (#{id}, #{image.imagename})
-		</foreach>
-	</insert>
-	
-	<select id="list" resultType="map" parameterType="map">
-        SELECT g.NUM, g.TITLE, g.WRITER, TO_CHAR(g.contents) as contents, g.HIT, g.REIP,g.GDATE, g.ROW_NUM, gc.GALLERYID, gc.IMAGENAME FROM
-        (SELECT num, title, writer, contents, hit, reip, gdate,
-        ROW_NUMBER() OVER(ORDER BY num desc) row_num FROM GALLERY
-        <if test="searchType != null and searchValue != null">
-            <where>
-                <choose>
-                    <when test="searchType == 1">
-                        writer LIKE '%'||#{searchValue}||'%'
-                    </when>
-                    <when test="searchType == 2">
-                        title LIKE '%'||#{searchValue}||'%'
-                    </when>
-                    <when test="searchType == 3">
-                        CONTENTS LIKE '%'||#{searchValue}||'%'
-                    </when>
-                </choose>
-            </where>
-        </if>
-        ) g,
-        (SELECT GALLERYID, IMAGENAME FROM (SELECT GALLERYID, IMAGENAME,
-        ROW_NUMBER() OVER(PARTITION BY galleryid ORDER BY imagename desc) RN FROM GALLERYIMAGES)
-        WHERE RN=1) gc WHERE g.num=gc.galleryid AND row_num BETWEEN #{begin} AND #{end} ORDER BY num DESC
-    </select>
-    
-    <select id="totalCount" resultType="int" parameterType="map">
-    select count(*) cnt from gallery
-    <if test="searchType != null and searchValue != null">
-            <where>
-                <choose>
-                    <when test="searchType == 1">
-                        writer LIKE '%'||#{searchValue}||'%'
-                    </when>
-                    <when test="searchType == 2">
-                        title LIKE '%'||#{searchValue}||'%'
-                    </when>
-                    <when test="searchType == 3">
-                        CONTENTS LIKE '%'||#{searchValue}||'%'
-                    </when>
-                </choose>
-            </where>
-        </if>
-    </select>
+<insert id="add" parameterType="gvo">
+  INSERT INTO gallery (num, title, contents, writer, reip, hit, gdate)
+      VALUES (gallery_seq.NEXTVAL, #{title}, #{contents}, #{writer}, #{reip}, 0, SYSDATE)
+</insert>
+<!--
+INSERT ALL  :    open
+ INTO GALLERYIMAGES (galleryid, imagename) VALUES(gallery_seq.currVal,'a.png')
+ INTO GALLERYIMAGES (galleryid, imagename) VALUES(gallery_seq.currVal,'b.png')
+ INTO GALLERYIMAGES (galleryid, imagename) VALUES(gallery_seq.currVal,'c.png')
+select * FROM dual  : close
+-->
+<insert id="addImg" parameterType="java.util.List">
+	<selectKey keyProperty="id" resultType="int" order="BEFORE">
+		SELECT gallery_seq.currVal FROM dual
+	</selectKey>
+	<foreach collection="list" item="image" separator=" " open="insert all"
+		close="select * from dual"
+	>
+		INTO galleryimages (galleryid, imagename) VALUES(#{id}, #{image.imagename})
+	</foreach>
+</insert>
+<select id="list" resultType="map" parameterType="map">
+<!--json으로 매핑 될 때 string type으로 변경해야 함. clob-->
+SELECT g.num,g.title,g.writer,TO_CHAR(g.contents) as contents ,g.hit, g.reip, g.gdate, g.row_num, 
+   gc.imagename FROM 
+	(SELECT num,title,writer,contents,hit, reip, gdate, 
+		ROW_NUMBER() OVER(ORDER BY num desc) AS row_num FROM gallery
+			<if test="searchType != null and searchValue != null">
+				<where>
+					<choose>
+						<when test="searchType == 1">
+							writer like '%'|| #{searchValue} ||'%'
+						</when>
+						<when test="searchType == 2">
+							title like '%'|| #{searchValue} ||'%'
+						</when>
+						<when test="searchType == 3">
+							contents like '%'|| #{searchValue} ||'%'
+						</when>
+					</choose>
+				</where>
+			</if>	
+		) g ,
+		(
+	   SELECT galleryid, imagename
+		    FROM (
+		        SELECT galleryid, imagename,
+		               ROW_NUMBER() OVER (PARTITION BY galleryid ORDER BY imagename) AS rn
+		        FROM galleryimages
+		    )
+    	WHERE rn = 1
+		) gc  
+	   WHERE g.num=gc.galleryid AND g.row_num BETWEEN #{begin} AND #{end} ORDER BY num desc
+</select>
+
+	<select id="totalCount" resultType="int" parameterType="map">
+			select count(*) cnt from gallery
+			<if test="searchType != null and searchValue != null">
+				<where>
+					<choose>
+						<when test="searchType == 1">
+							writer like '%'|| #{searchValue} ||'%'
+						</when>
+						<when test="searchType == 2">
+							title like '%'|| #{searchValue} ||'%'
+						</when>
+						<when test="searchType == 3">
+							contents like '%'|| #{searchValue} ||'%'
+						</when>
+					</choose>
+				</where>
+			</if>
+	</select>
 </mapper> 
 
 

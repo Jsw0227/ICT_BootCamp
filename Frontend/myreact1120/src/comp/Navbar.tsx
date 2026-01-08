@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import style from './navbar.module.css'
 import { NavLink } from 'react-router-dom'
 import DropdownNav from './DropdownNav'
+import DropdownSurveyNav from './DropdownSurveyNav'
 
 const Navbar: React.FC = () => {
     //style클래스를 정의하기 : 스타일로 활성화 상태를 구분하기 위한
@@ -23,6 +24,7 @@ const Navbar: React.FC = () => {
             {/* <NavLink to="/community" className={commonLinkClass}>커뮤니티</NavLink> */}
             <DropdownNav/>
             <NavLink to="/diary" className={commonLinkClass}>Diary</NavLink>
+            <DropdownSurveyNav/>
         </nav>
                 // <nav style={{ marginTop: '10px' }}>
         //     <Link to="/" style={{ marginRight: '10px' }}>Home</Link>

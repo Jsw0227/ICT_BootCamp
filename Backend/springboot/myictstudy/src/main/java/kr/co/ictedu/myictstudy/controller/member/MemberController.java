@@ -15,18 +15,23 @@ import kr.co.ictedu.myictstudy.vo.MemberVO;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+		@Autowired
+	    private MemberService memberService;
+	    
+	    @PostMapping("/signup")
+	    public ResponseEntity<?> memberjoin(MemberVO memberDTO) {
+	    	System.out.println("memberDTO:"+memberDTO.getUserid());
+	    	memberService.create(memberDTO);
+	        return ResponseEntity.ok().build();
+	    }
+	    @GetMapping("/idCheck")
+	    public int idCheck(@RequestParam("id") String id) {
+	    	return memberService.checkId(id);
+	    }
 	
-	@Autowired
-	private MemberService memberService;
-	
-	@PostMapping("/signup")
-	public ResponseEntity<?> memberjoin(MemberVO memberDTO){
-		memberService.create(memberDTO);
-		return ResponseEntity.ok().build();
-	}
-	
-	@GetMapping("/idCheck")
-	public int idCheck(@RequestParam("id") String id) {
-		return memberService.checkID(id);
-	}
 }
+
+
+
+
+

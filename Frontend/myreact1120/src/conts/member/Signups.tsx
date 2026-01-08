@@ -1,118 +1,107 @@
 import React, { useState } from 'react'
 import style from './signup.module.css'
 import { useNavigate } from 'react-router-dom';
-import axios, { Axios } from 'axios';
-import { config } from 'process';
+import axios from 'axios';
 //conts.Signup.tsx
 
-interface MemberForm{
-    userid:string;
-    password:string;
-    name:string;
-    email:string;
-    regDate?:string;
-  }
-
-
-
+interface MemberForm {
+  userid: string;
+  password: string;
+  name: string;
+  email: string;
+  regDate?: string;
+}
 const Signups: React.FC = () => {
-
-  const [form,setForm] = useState<MemberForm>({
-    userid:'',
-    email:'',
-    password:'',
-    name:''
+  //전송을 하기 위한 useState를 초기화 한다.
+  const [form, setForm] = useState<MemberForm>({
+    userid: '',
+    password: '',
+    name: '',
+    email: '',
   });
-
-  const[code,setCode] = useState('');
-  const[emailMessage,setEmailMessage]=useState('');
-  const[idMessage,setIdMessage]=useState('');
-  const[isEmailVerified,setIsEmailVerified] = useState(false);
+  const [code, setCode] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [idMessage, setIdMessage] = useState('');
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
-  const urls = "http://192.168.0.14/myictstudy";
-  const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    const {name,value} = e.target;
-    setForm({...form,[name]:value});
-  }
+  const urls = "http://192.168.0.18/myictstudy";
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
+  const idCheck = async () => {
+
+ try {
+      const res = await axios.get(`${urls}/member/idCheck?id=${form.userid}`);
+      if (res.data === 0) {
+        alert('사용 가능한 아이디입니다.');
+        setIdMessage('사용 가능한 아이디입니다.');
+      } else {
+        setIdMessage('이미 사용 중인 아이디입니다.');
+      }
+    } catch (err) {
+      alert('아이디 중복 확인 실패'); console.error(err);
+    }
+
+}
   const emailCheck = async () => {
     try {
-      const res = await axios.post(`${urls}/api/auth/emailCheck`,{email:form.email});
-      if(res.data === 0){alert('인증번호가 발송되었습니다')
-      setEmailMessage('인증번호가 발송되었습니다');
-      setIsEmailVerified(false);
-      }else{
-        setEmailMessage('이미 사용중인 이메일입니다.')
+      const res = await axios.post(`${urls}/api/auth/emailCheck`, {
+        email: form.email,});
+      if (res.data === 0) {alert('인증 번호가 발송되었습니다.');
+        setEmailMessage('인증 번호가 발송되었습니다.');
+        setIsEmailVerified(false);
+      } else {
+        setEmailMessage('이미 사용 중인 이메일입니다.');
       }
-    } catch (error) {
-       alert('이메일 인증 중 오류 발생'); 
-       console.log(error);
+    } catch (err) {
+      alert('이메일 인증 중 오류 발생');console.error(err);
     }
+  };
+const checkEmailCode = async () => {
+  try {
+    const res = await axios.post(`${urls}/api/auth/emailCheck/certification`, {
+      email: form.email,code: code });
+    const result = res.data;
+    if (result.success) {
+      alert('이메일 인증 성공!'); setIsEmailVerified(true);
+    } else {
+      if (result.reason === 'exceeded') {
+        alert('3회 이상 인증번호를 틀려 더 이상 시도할 수 없습니다.\n다시 인증번호를 요청하세요.');
+      } else if (result.reason === 'expired') {
+        alert('인증번호 유효시간이 만료되었습니다.\n다시 인증번호를 요청하세요.');
+      } else if (result.reason === 'wrong') { alert('인증번호가 일치하지 않습니다.'); }
+    }
+  } catch (err) {
+    alert('인증번호 확인 오류');console.error(err);
   }
+};
 
-  const handleSubmit = async (e:React.FormEvent) => {
-    e.preventDefault();
-    if(!isEmailVerified){
-      alert('이메일 인증을 먼저 완료 해주세요.')
-      return ;
-    }
+const handleSubmit = async (e: React.FormEvent) => {
+  if (!isEmailVerified) { alert('이메일 인증을 먼저 완료해주세요.'); return; }
     try {
-      const formData = new FormData;
-      formData.append('userid',form.userid);
-      formData.append('password',form.password);
-      formData.append('name',form.name);
-      formData.append('email',form.email);
-      await axios.post(`${urls}/member/signup`,formData);
+      const formData = new FormData();
+      formData.append('userid', form.userid);
+      formData.append('password', form.password);
+      formData.append('name', form.name);
+      formData.append('email', form.email);
+      const obj: any = {};
+      formData.forEach((value, key) => {
+        obj[key] = value;
+      });
+      //alert(`formData : ${JSON.stringify(obj)} `);
+      await axios.post(`${urls}/member/signup`, formData);
       alert('회원가입 완료');
-      navigate('/')
-    } catch (error) {
-      console.log('회원가입 오류',error);
-      alert('회원가입 실패')
+      navigate('/');
+    } catch (err) {
+      console.error('회원가입 오류:', err);
+      alert('회원가입 실패');
     }
-  }
+}
 
-    const idCheck = async () => {
-      try {
-        const res = await axios.get(`${urls}/member/idCheck?id=${form.userid}`);
-        if(res.data === 0){
-          alert('사용 가능한 아이디입니다.')
-          setIdMessage('사용 가능한 아이디 입니다.')
-        }else{
-          setIdMessage('이미 사용중인 아이디입니다.')
-        }
-      } catch (error) {
-        alert('아이디 중복 확인 실패');
-        console.log(error);
-      }
-    }
-
-    const checkEmailCode = async () => {
-      try {
-        const res = await axios.post(`${urls}/api/auth/emailCheck/certification`,{email:form.email,code:code});
-        const result = res.data;
-        if(result.success){
-          alert('이메일 인증 성공!');
-          setIsEmailVerified(true);
-        }else{
-          if(result.reason==='exceeded'){
-            alert('3회 이상 인증번호를 틀려 더 이상 시도 할 수 없습니다. \n 다시 인증번호를 요청하세요.')
-          }else if(result.reason==='expired'){
-            alert('인증번호 유효시간이 만료되었습니다. \n다시 인증번호를 요청하세요');
-          }else if(result.reason ==='wrong'){
-            alert('인증번호가 일치하지 않습니다.');
-          }
-        }
-      } catch (error) {
-        alert('인증번호 확인 오류');
-        console.log(error)
-      }
-
-
-  }
-
- 
   return (
-   <div className="container mt-5">
+     <div className="container mt-5">
       <form onSubmit={handleSubmit} className="p-4 bg-light border rounded">
         <h2 className="text-center mb-4">회원가입</h2>
 

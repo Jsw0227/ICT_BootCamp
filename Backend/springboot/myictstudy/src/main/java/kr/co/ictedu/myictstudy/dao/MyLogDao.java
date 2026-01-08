@@ -7,6 +7,7 @@ import kr.co.ictedu.myictstudy.vo.MyLoginLoggerVO;
 
 @Mapper
 public interface MyLogDao {
-	@Insert("INSERT INTO myloginlog VALUES (myloginlogs.NEXTVAL, #{idn},#{reip},#{uagent},#{status}, sysdate)")
+	@Insert("insert into myloginlog values(myloginlogs.nextVal,"
+			+ "#{idn},#{reip},#{uagent},#{status},sysdate)")
 	public void addLoginLogging(MyLoginLoggerVO vo);
 }
